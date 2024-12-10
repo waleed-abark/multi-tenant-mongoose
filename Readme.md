@@ -33,11 +33,14 @@ const tenant = new Tenant(tenantURI);
   Connects to the tenant's MongoDB database. If a connection already exists, it throws an error.
 
   ```javascript
-  tenant.connect().then(() => {
-    console.log('Connected successfully');
-  }).catch((error) => {
-    console.error('Connection error:', error);
-  });
+  tenant
+    .connect()
+    .then(() => {
+      console.log("Connected successfully");
+    })
+    .catch((error) => {
+      console.error("Connection error:", error);
+    });
   ```
 
 - **disconnect(): Promise<void>**
@@ -45,19 +48,22 @@ const tenant = new Tenant(tenantURI);
   Disconnects from the tenant's MongoDB database. If no connection exists, it throws an error.
 
   ```javascript
-  tenant.disconnect().then(() => {
-    console.log('Disconnected successfully');
-  }).catch((error) => {
-    console.error('Disconnection error:', error);
-  });
+  tenant
+    .disconnect()
+    .then(() => {
+      console.log("Disconnected successfully");
+    })
+    .catch((error) => {
+      console.error("Disconnection error:", error);
+    });
   ```
 
 ### Example
 
 ```javascript
-const Tenant = require('./tenant');
+const Tenant = require("./tenant");
 
-const tenantURI = 'mongodb://your-tenant-uri';
+const tenantURI = "mongodb://your-tenant-uri";
 const tenant = new Tenant(tenantURI);
 
 async function manageTenantConnection() {
@@ -75,8 +81,6 @@ manageTenantConnection();
 ## Dependencies
 
 - [mongoose](https://www.npmjs.com/package/mongoose): ^8.8.4
-- [dotenv](https://www.npmjs.com/package/dotenv): ^16.4.7
-- [nodemon](https://www.npmjs.com/package/nodemon): ^3.1.7
 
 ## License
 

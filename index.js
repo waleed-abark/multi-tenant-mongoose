@@ -1,7 +1,10 @@
-import mongoose from "mongoose";
-
+/**
+ * Class Tenant
+ * @class Tenant
+ */
 class Tenant {
   /**
+   * @constructor
    * @param {string} tenantURI
    */
   constructor(tenantURI) {
@@ -9,9 +12,11 @@ class Tenant {
       throw new Error("Tenant URI must be a string");
     }
     this.tenantURI = tenantURI;
+    this._id = null;
     this.connection = null;
-    this.model = null;
+    this.models = new Map();
   }
+
   /**
    * @returns {Promise<void>}
    */
@@ -22,15 +27,17 @@ class Tenant {
           throw new Error("Tenant connection already exists");
         }
         this.connection = await mongoose.createConnection(this.tenantURI);
-        this.model = this.connection.model;
+        this.models = this.connection.models;
         this.connection.on("open", () =>
           console.log(`Connected to ${this.tenantURI}`)
         );
+        this._id = this.connection.db.databaseName;
       } catch (error) {
         console.log(error);
       }
     })();
   }
+
   /**
    * @returns {Promise<void>}
    */
@@ -47,6 +54,31 @@ class Tenant {
       }
     })();
   }
+
+  /**
+   * @returns {string}
+   */
+  get id() {
+    return this._id;
+  }
+
+  /**
+   * @returns {Map<string, mongoose.Model>}
+   */
+  get models() {
+    return this.models;
+  }
+
+  /**
+   * @returns {Promise<object>}
+   */
+  get health() {
+    return (async () => {
+      const connection = await this.connection.db.command({ serverStatus: 1 });
+      return connection;
+    })();
+  }
 }
 
 exports.Tenant = Tenant;
+
