@@ -3,6 +3,11 @@
   "version": "1.0.1",
   "main": "index.js",
   "type": "module",
+  "homepage": "https://github.com/waleed-abark/multi-tenant-mongoose",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waleed-abark/multi-tenant-mongoose.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
