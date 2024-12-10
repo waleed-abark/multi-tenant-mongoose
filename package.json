@@ -1,6 +1,6 @@
 {
   "name": "multi-tenant-mongoose",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "type": "module",
   "homepage": "https://github.com/waleed-abark/multi-tenant-mongoose",
