@@ -80,5 +80,8 @@ class Tenant {
   }
 }
 
-exports.Tenant = Tenant;
+// CommonJS export
+module.exports = Tenant;
 
+// ES Module export (optional)
+module.exports.default = Tenant;

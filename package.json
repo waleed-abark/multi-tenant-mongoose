@@ -2,7 +2,12 @@
   "name": "multi-tenant-mongoose",
   "version": "1.0.3",
   "main": "index.js",
-  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.js"
+    }
+  },
   "homepage": "https://github.com/waleed-abark/multi-tenant-mongoose",
   "repository": {
     "type": "git",
