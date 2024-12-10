@@ -14,13 +14,14 @@
     "url": "git+https://github.com/waleed-abark/multi-tenant-mongoose.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Waleed Ahmad waleed.abark@gmail.com",
   "license": "ISC",
   "description": "The `multi-tenant-mongoose` library provides a simple way to manage multiple tenant connections using Mongoose. It allows you to create and manage separate database connections for each tenant, ensuring isolation and organization of your data.",
   "dependencies": {
+    "jest": "^29.7.0",
     "mongoose": "^8.8.4"
   }
 }

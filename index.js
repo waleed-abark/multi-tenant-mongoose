@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 /**
  * Class Tenant
  * @class Tenant
@@ -12,76 +14,68 @@ class Tenant {
       throw new Error("Tenant URI must be a string");
     }
     this.tenantURI = tenantURI;
-    this._id = null;
-    this.connection = null;
-    this.models = new Map();
+    this._models = new Map(); // Internal storage for models
   }
 
   /**
+   * Connect to the database
    * @returns {Promise<void>}
    */
-  connect() {
-    return (async () => {
-      try {
-        if (this.connection) {
-          throw new Error("Tenant connection already exists");
-        }
-        this.connection = await mongoose.createConnection(this.tenantURI);
-        this.models = this.connection.models;
-        this.connection.on("open", () =>
-          console.log(`Connected to ${this.tenantURI}`)
-        );
-        this._id = this.connection.db.databaseName;
-      } catch (error) {
-        console.log(error);
+  async connect() {
+    try {
+      if (this.connection) {
+        throw new Error("Tenant connection already exists");
       }
-    })();
+      this.connection = await mongoose.createConnection(this.tenantURI);
+      this._models = new Map(Object.entries(this.connection.models));
+      this.connection.on("open", () =>
+        console.log(`Connected to ${this.tenantURI}`)
+      );
+      this._id = this.connection?.db?.databaseName;
+    } catch (error) {
+      console.error("Error connecting to the database:", error);
+      throw error; // Re-throw for test cases or external error handling
+    }
   }
 
   /**
+   * Disconnect from the database
    * @returns {Promise<void>}
    */
-  disconnect() {
-    return (async () => {
-      try {
-        if (!this.connection) {
-          throw new Error("Tenant connection does not exist");
-        }
-        await this.connection.close();
-        console.log(`Disconnected from ${this.tenantURI}`);
-      } catch (error) {
-        console.log(error);
+  async disconnect() {
+    try {
+      if (!this.connection) {
+        throw new Error("Tenant connection does not exist");
       }
-    })();
+      await this.connection.close();
+      console.log(`Disconnected from ${this.tenantURI}`);
+      this._models.clear();
+      this.connection = null;
+    } catch (error) {
+      console.error("Error disconnecting from the database:", error);
+      throw error; // Re-throw for test cases or external error handling
+    }
   }
 
   /**
-   * @returns {string}
+   * Getter for tenant ID
+   * @returns {string|null}
    */
   get id() {
     return this._id;
   }
 
   /**
+   * Getter for models
    * @returns {Map<string, mongoose.Model>}
    */
   get models() {
-    return this.models;
-  }
-
-  /**
-   * @returns {Promise<object>}
-   */
-  get health() {
-    return (async () => {
-      const connection = await this.connection.db.command({ serverStatus: 1 });
-      return connection;
-    })();
+    return this._models;
   }
 }
 
 // CommonJS export
 module.exports = Tenant;
 
-// ES Module export (optional)
+// Optional ES Module export
 module.exports.default = Tenant;
