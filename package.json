@@ -1,0 +1,16 @@
+{
+  "name": "multi-tenant-mongoose",
+  "version": "1.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Waleed Ahmad waleed.abark@gmail.com",
+  "license": "ISC",
+  "description": "The `multi-tenant-mongoose` library provides a simple way to manage multiple tenant connections using Mongoose. It allows you to create and manage separate database connections for each tenant, ensuring isolation and organization of your data.",
+  "dependencies": {
+    "mongoose": "^8.8.4"
+  }
+}
